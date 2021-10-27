@@ -79,17 +79,20 @@ namespace BTTuan03_LTDT_1988216
             Console.WriteLine("Trong so cua cay khung: {0}", sumOfWeight);
         }
 
-        public void Kruskal(int start)
+        public void Kruskal()
         {
             List<int[]> E = new List<int[]>(); // Tập cạnh E;
 
             // Thêm các cạnh vào tập E
             for(int i = 0; i < n - 1; i++)
             {
-                for (int j = i + 1; j < n && g[i,j] > 0; j++)
+                for (int j = i + 1; j < n; j++)
                 {
-                    int[] edge = new int[3] { i, j, g[i, j] }; // [u,v,weight]
-                    E.Add(edge);
+                    if(g[i,j] > 0)
+                    {
+                        int[] edge = new int[3] { i, j, g[i, j] }; // [u,v,weight]
+                        E.Add(edge);
+                    }
                 }
             }
 
@@ -102,20 +105,84 @@ namespace BTTuan03_LTDT_1988216
             int currentPick = 0;
             while(T.Count < n - 1)
             {
-                if(!IsCircle(T, E[currentPick]))
+                if (!IsCircle(T, E[currentPick]))
+                {
                     T.Add(E[currentPick]);
+                }
 
                 currentPick++;
             }
+
+            // In tập cạnh của cây khung
+            Console.WriteLine("Tap canh cua cay khung: ");
+            foreach (int[] t in T)
+            {
+                Console.WriteLine("{0}-{1}: {2}", t[0], t[1], t[2]);
+            }
+
+            int sumOfWeight = T.Sum(x => x[2]); // Tổng trọng số của cây khung
+
+            Console.WriteLine("Trong so cua cay khung: {0}", sumOfWeight);
         }
 
-        private bool IsCircle(List<int[]> T, int[] edgeAdded)
+        public bool IsCircle(List<int[]> listOld, int[] edgeAdded)
         {
-            if (T.Count <= 1)
-                return false;
-            
-            
+            // T là tập cạnh được truyền vào
+            // phần tử bên trong là các cạnh [u,v,weight]
 
+            // Copy các phần tử listOld qua listOldEdge vì vấn đề immutable của list
+            List<int[]> listOldEdge = new List<int[]>();
+            for(int i = 0; i < listOldEdge.Count; i++)
+            {
+                listOldEdge.Add(listOld[i]);
+            }
+
+            // Thêm cạnh được xét vào
+            listOldEdge.Add(edgeAdded); 
+
+            Stack<int[]> stack = new Stack<int[]>();
+            bool[] visitedEdge = new bool[listOldEdge.Count]; // Biến đánh dấu cạnh đã duyệt
+
+            List<int[]> listCanhKeNhau = new List<int[]>();
+            listCanhKeNhau.Add(listOldEdge[0]);
+            visitedEdge[0] = true;
+            stack.Push(listOldEdge[0]);
+
+            while(stack.Count > 0)
+            {
+                int[] curEdge = stack.Pop();
+                int u = curEdge[0];
+                int v = curEdge[1];
+                // Chọn các cạnh có trong List mà chưa được ghé thăm
+                for(int i = 0; i < listOldEdge.Count; i++)
+                {
+                    if(!visitedEdge[i])
+                    {
+                        if (listOldEdge[i][0] == u || listOldEdge[i][0] == v || listOldEdge[i][1] == u || listOldEdge[i][1] == v)
+                        {
+                            stack.Push(listOldEdge[i]);
+                            visitedEdge[i] = true;
+                            listCanhKeNhau.Add(listOldEdge[i]);
+                            break;
+                        }
+                    }
+
+                }
+            }
+
+            // Nếu phần tử đầu List và cuối list có chứa đỉnh chung thì có chu trình
+            int l = listCanhKeNhau.Count;
+
+            if (l == 1) return false; // Nếu tập cạnh kề nhau chỉ có một phần tử thì không hình thành chu trình
+
+            if(listCanhKeNhau[0][0] == listCanhKeNhau[l-1][0] || listCanhKeNhau[0][0] == listCanhKeNhau[l-1][1] ||
+                listCanhKeNhau[0][1] == listCanhKeNhau[l-1][0] || listCanhKeNhau[0][1] == listCanhKeNhau[l-1][1])
+            {
+                // Có chu trình
+                return true;
+            }
+            
+            // Không có chu trình
             return false;
         }
     }

@@ -25,7 +25,7 @@ namespace BTTuan03_LTDT_1988216
 
             Console.WriteLine();
             Console.WriteLine(" ==== KRUSKAL ===== ");
-            g.Kruskal(start);
+            g.Kruskal();
 
             Console.ReadLine();
 
