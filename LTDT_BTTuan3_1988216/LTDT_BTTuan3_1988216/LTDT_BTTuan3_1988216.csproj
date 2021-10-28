@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{69D78C81-000B-4A99-905F-E2CFF8860334}</ProjectGuid>
+    <ProjectGuid>{B9A06DE6-268C-43AA-85EF-8B33612ECA16}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>BTTuan03_LTDT_1988216</RootNamespace>
-    <AssemblyName>BTTuan03_LTDT_1988216</AssemblyName>
+    <RootNamespace>LTDT_BTTuan3_1988216</RootNamespace>
+    <AssemblyName>LTDT_BTTuan3_1988216</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -44,11 +44,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdjacencyMatrix.cs" />
-    <Compile Include="AdjacencyMatrix2.cs" />
     <Compile Include="EDGE.cs" />
-    <Compile Include="FileHandler.cs" />
     <Compile Include="Kruskal.cs" />
-    <Compile Include="Kruskal2.cs" />
+    <Compile Include="Prim.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
